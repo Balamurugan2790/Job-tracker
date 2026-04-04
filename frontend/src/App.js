@@ -12,7 +12,7 @@ import JobsPage from './pages/JobsPage';
 import InsightsPage from './pages/InsightsPage';
 import ResumePage from './pages/ResumePage';
 
-const API_BASE = 'http://127.0.0.1:5000';
+const API_BASE = 'https://job-tracker-xqv8.onrender.com';
 
 const theme = createTheme({
   palette: {

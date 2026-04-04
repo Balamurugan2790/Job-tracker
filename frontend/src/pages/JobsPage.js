@@ -13,7 +13,7 @@ import AttachMoney from '@mui/icons-material/AttachMoney';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import Rocket from '@mui/icons-material/RocketLaunch';
 
-const API_BASE = 'http://127.0.0.1:5000';
+const API_BASE = 'https://job-tracker-xqv8.onrender.com';
 
 function JobsPage({ openJobs, fetchOpenJobs, applications, fetchApplications, fetchInsights, onStatusUpdate }) {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });

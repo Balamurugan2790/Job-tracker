@@ -9,7 +9,7 @@ import Email from '@mui/icons-material/Email';
 import Lock from '@mui/icons-material/Lock';
 import CheckCircle from '@mui/icons-material/CheckCircle';
 
-const API_BASE = 'http://127.0.0.1:5000';
+const API_BASE = 'https://job-tracker-xqv8.onrender.com';
 
 function LoginPage({ setToken }) {
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });

@@ -15,7 +15,7 @@ import Cancel from '@mui/icons-material/Cancel';
 import axios from 'axios';
 import { useState } from 'react';
 
-const API_BASE = 'http://127.0.0.1:5000';
+const API_BASE = 'https://job-tracker-xqv8.onrender.com';
 
 function InsightsPage({ insights, applications, fetchApplications, fetchInsights }) {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });

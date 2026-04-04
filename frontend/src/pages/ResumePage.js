@@ -18,7 +18,7 @@ import TrendingUp from '@mui/icons-material/TrendingUp';
 import Refresh from '@mui/icons-material/Refresh';
 import UploadFile from '@mui/icons-material/UploadFile';
 
-const API_BASE = 'http://127.0.0.1:5000';
+const API_BASE = 'https://job-tracker-xqv8.onrender.com';
 const STEPS = { WELCOME: 'welcome', JOB_SELECT: 'job_select', ANALYZING: 'analyzing', DONE: 'done' };
 
 function BotMessage({ content }) {
