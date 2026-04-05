@@ -105,7 +105,7 @@ function AnalysisMessage({ data }) {
             Resume Analysis Complete
           </Typography>
           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.85)' }}>
-            {data.company} â€” {data.job_title}
+            {data.company} – {data.job_title}
           </Typography>
           <Box sx={{ mt: 1.5 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
@@ -160,7 +160,7 @@ function AnalysisMessage({ data }) {
             <Stack spacing={1}>
               {data.suggested_projects.map((p, i) => (
                 <Box key={i} sx={{ display: 'flex', gap: 1 }}>
-                  <Typography variant="body2" sx={{ color: '#7b1fa2', fontWeight: 700, minWidth: 12 }}>â€¢</Typography>
+                  <Typography variant="body2" sx={{ color: '#7b1fa2', fontWeight: 700, minWidth: 12 }}>•</Typography>
                   <Typography variant="body2" sx={{ color: '#444', lineHeight: 1.65 }}>{p}</Typography>
                 </Box>
               ))}
@@ -171,7 +171,7 @@ function AnalysisMessage({ data }) {
             <Stack spacing={1}>
               {data.certifications.map((c, i) => (
                 <Box key={i} sx={{ display: 'flex', gap: 1 }}>
-                  <Typography variant="body2" sx={{ color: '#0288d1', fontWeight: 700, minWidth: 12 }}>â€¢</Typography>
+                  <Typography variant="body2" sx={{ color: '#0288d1', fontWeight: 700, minWidth: 12 }}>•</Typography>
                   <Typography variant="body2" sx={{ color: '#444', lineHeight: 1.65 }}>{c}</Typography>
                 </Box>
               ))}
@@ -182,7 +182,7 @@ function AnalysisMessage({ data }) {
             <Stack spacing={1}>
               {data.improvements.map((imp, i) => (
                 <Box key={i} sx={{ display: 'flex', gap: 1 }}>
-                  <Typography variant="body2" sx={{ color: '#558b2f', fontWeight: 700, minWidth: 12 }}>â€¢</Typography>
+                  <Typography variant="body2" sx={{ color: '#558b2f', fontWeight: 700, minWidth: 12 }}>•</Typography>
                   <Typography variant="body2" sx={{ color: '#444', lineHeight: 1.65 }}>{imp}</Typography>
                 </Box>
               ))}
@@ -197,7 +197,7 @@ function AnalysisMessage({ data }) {
 function ResumePage({ token, openJobs }) {
   const [step, setStep] = useState(STEPS.WELCOME);
   const [messages, setMessages] = useState([
-    { type: 'bot', content: "ðŸ‘‹ Hi! I'm your AI Resume Assistant.\n\nI'll analyze your resume against a specific job and give you personalized suggestions to improve your match score.\n\nLet's start â€” upload your resume or paste your resume text in the box below." }
+    { type: 'bot', content: "Hi! I'm your AI Resume Assistant.\n\nI'll analyze your resume against a specific job and give you personalized suggestions to improve your match score.\n\nLet's start” upload your resume or paste your resume text in the box below." }
   ]);
   const [resumeText, setResumeText] = useState('');
   const [selectedJobId, setSelectedJobId] = useState(null);
@@ -243,7 +243,7 @@ function ResumePage({ token, openJobs }) {
       setStep(STEPS.DONE);
     } catch (err) {
       setLoading(false);
-      addMessage({ type: 'bot', content: 'âŒ Something went wrong during analysis. Please try again.' });
+      addMessage({ type: 'bot', content: '❌ Something went wrong during analysis. Please try again.' });
       setStep(STEPS.JOB_SELECT);
     }
   };
@@ -489,7 +489,7 @@ function ResumePage({ token, openJobs }) {
             {step === STEPS.ANALYZING && (
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 1 }}>
                 <CircularProgress size={20} />
-                <Typography variant="body2" sx={{ color: '#666', fontWeight: 600 }}>Analyzing your resumeâ€¦</Typography>
+                <Typography variant="body2" sx={{ color: '#666', fontWeight: 600 }}>Analyzing your resume…</Typography>
               </Box>
             )}
 
