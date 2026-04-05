@@ -368,7 +368,7 @@ function JobsPage({ openJobs, fetchOpenJobs, applications, fetchApplications, fe
         <DialogTitle sx={{ fontWeight: 700, fontSize: '1.3rem', pb: 1 }}>
           Update Application Status
         </DialogTitle>
-        <DialogContent sx={{ pt: 3, overflow: 'visible' }}>
+        <DialogContent sx={{ pt: 4, pb: 1, overflow: 'visible' }}>
           <FormControl fullWidth>
             <InputLabel sx={{ fontWeight: 600 }}>Status</InputLabel>
             <Select
