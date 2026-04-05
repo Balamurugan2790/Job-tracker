@@ -281,6 +281,10 @@ def get_applications():
 def update_application(app_id):
     current_user = get_jwt_identity()
     user = User.query.filter_by(username=current_user).first()
+    
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
+    
     data = request.get_json()
     new_status = data.get('status')
     
@@ -299,6 +303,9 @@ def update_application(app_id):
 def delete_application(app_id):
     current_user = get_jwt_identity()
     user = User.query.filter_by(username=current_user).first()
+    
+    if not user:
+        return jsonify({'message': 'User not found'}), 404
     
     application = Application.query.get(app_id)
     
