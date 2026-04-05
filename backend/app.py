@@ -51,127 +51,6 @@ class Application(db.Model):
     status = db.Column(db.String(50), default='applied')
     date_applied = db.Column(db.DateTime, default=datetime.utcnow)
 
-# Initialize database with default jobs
-def init_db():
-    with app.app_context():
-        db.create_all()
-        
-        # Check if jobs already exist
-        if Job.query.count() == 0:
-            default_jobs = [
-                {
-                    'company': 'Google',
-                    'position': 'Senior Software Engineer',
-                    'location': 'Mountain View, CA',
-                    'salary': '$160,000 - $200,000',
-                    'description': 'Join Google\'s core infrastructure team to design and build highly scalable distributed systems that power billions of users worldwide.\n\nYou will work on challenging problems in areas such as storage, networking, and compute infrastructure. You\'ll collaborate with world-class engineers to architect solutions that need to handle massive scale reliably.\n\nResponsibilities include designing system components, writing high-quality code, conducting code reviews, and mentoring junior engineers. You\'ll participate in on-call rotations and drive reliability improvements across critical services.\n\nWe value engineers who think deeply about problems, communicate clearly, and take ownership of their work from design through deployment and monitoring.',
-                    'required_skills': 'Python, Java, C++, Distributed Systems, Kubernetes'
-                },
-                {
-                    'company': 'Microsoft',
-                    'position': 'Principal Cloud Architect',
-                    'location': 'Seattle, WA',
-                    'salary': '$180,000 - $220,000',
-                    'description': 'Microsoft Azure is looking for a Principal Cloud Architect to lead the design of next-generation cloud services used by enterprise customers globally.\n\nIn this role, you will define the architectural vision for Azure services, working closely with product managers and engineering leads to translate customer needs into scalable technical solutions. You will conduct architecture reviews, establish best practices, and ensure consistency across service boundaries.\n\nYou will represent your team in cross-org technical discussions and contribute to long-term platform strategy. Strong written and verbal communication skills are essential as you will regularly present to senior leadership.\n\nIdeal candidates have deep expertise in cloud-native design patterns, microservices, and enterprise integration scenarios.',
-                    'required_skills': 'Azure, C#, .NET, Microservices, System Design'
-                },
-                {
-                    'company': 'Meta',
-                    'position': 'Full Stack Engineer',
-                    'location': 'Menlo Park, CA',
-                    'salary': '$155,000 - $195,000',
-                    'description': 'Meta\'s Growth team is seeking a Full Stack Engineer to build high-impact features that improve how people connect and share on Facebook and Instagram.\n\nYou will own features end-to-end, from backend API design to polished user interfaces. Working in a fast-paced environment, you\'ll run experiments, analyze results, and iterate quickly based on data. Our team ships to billions of users, so performance and reliability are top priorities.\n\nYou\'ll work closely with product designers and data scientists to craft experiences that delight users. We use React on the frontend and a mix of Python and Hack on the backend, with GraphQL connecting the two.\n\nWe value engineers who are product-minded, move quickly, and are comfortable with ambiguity.',
-                    'required_skills': 'React, Python, GraphQL, SQL, A/B Testing'
-                },
-                {
-                    'company': 'Amazon',
-                    'position': 'Software Development Engineer II',
-                    'location': 'Seattle, WA (Hybrid)',
-                    'salary': '$145,000 - $185,000',
-                    'description': 'Amazon\'s Payments team is hiring a Software Development Engineer to help build the payment processing infrastructure that powers Amazon\'s global marketplace.\n\nYou will design and implement services that handle millions of transactions per day with extremely high availability and fault-tolerance requirements. You\'ll own your services through the full SDLC — writing design documents, coding, testing, deploying, and monitoring in production.\n\nOur team operates with a high degree of autonomy and follows a two-pizza team model. You\'ll be expected to lead technical discussions, make architectural decisions, and deliver complex projects on time.\n\nStrong candidates will have experience with high-throughput distributed systems, operational excellence, and a track record of building robust production services.',
-                    'required_skills': 'Java, AWS, DynamoDB, SQS, Distributed Systems'
-                },
-                {
-                    'company': 'Apple',
-                    'position': 'iOS Software Engineer',
-                    'location': 'Cupertino, CA',
-                    'salary': '$150,000 - $190,000',
-                    'description': 'Apple\'s Health team is looking for a talented iOS Software Engineer to help build health and wellness features used by millions of Apple Watch and iPhone users.\n\nYou will work on the HealthKit framework and Health app, building features that help users understand and improve their health. Your work will have a direct impact on people\'s lives, from fitness tracking to clinical health records integration.\n\nYou\'ll collaborate with hardware teams, machine learning engineers, and UX designers to deliver seamless and beautiful experiences. We have very high standards for performance, privacy, and reliability — every detail matters at Apple.\n\nIdeal candidates have deep knowledge of Swift and UIKit, a passion for great user experiences, and a strong understanding of privacy-preserving software design.',
-                    'required_skills': 'Swift, Objective-C, UIKit, CoreData, HealthKit'
-                },
-                {
-                    'company': 'Netflix',
-                    'position': 'Senior Data Engineer',
-                    'location': 'Los Gatos, CA (Remote)',
-                    'salary': '$165,000 - $210,000',
-                    'description': 'Netflix\'s Data Platform team is seeking a Senior Data Engineer to help build and scale the infrastructure that powers content and member analytics across one of the world\'s largest streaming services.\n\nYou will design and maintain data pipelines, data warehouses, and real-time streaming systems that process petabytes of data daily. Your work will directly enable data-driven decision-making across engineering, content, marketing, and product teams.\n\nThe ideal candidate is comfortable working across the full data stack — from ingestion and storage to transformation and serving. We use Apache Spark, Kafka, Flink, and a custom internal platform called Metacat for data discovery and governance.\n\nWe look for engineers who are strong communicators, can influence data infrastructure decisions at scale, and care deeply about data quality and reliability.',
-                    'required_skills': 'Apache Spark, Kafka, Python, SQL, Scala, Data Modeling'
-                },
-                {
-                    'company': 'Stripe',
-                    'position': 'Backend Engineer – Payments',
-                    'location': 'San Francisco, CA (Remote)',
-                    'salary': '$155,000 - $200,000',
-                    'description': 'Stripe is looking for a Backend Engineer to join the Payments team, where you\'ll help build the financial infrastructure that millions of businesses rely on to accept payments globally.\n\nYou will work on the critical path of payment processing, building reliable, low-latency APIs and internal services. Our systems need to handle complex financial logic, fraud prevention, and reconciliation across hundreds of payment methods and currencies.\n\nYou\'ll participate in technical design discussions, write clean and maintainable Ruby or Go code, and take pride in operational excellence. Stripe engineers own their code in production, participating in on-call rotations and driving down error rates.\n\nWe care deeply about correctness and reliability — errors in payments have real financial consequences for our users.',
-                    'required_skills': 'Ruby, Go, PostgreSQL, Redis, REST APIs, Payments Domain'
-                },
-                {
-                    'company': 'Airbnb',
-                    'position': 'Machine Learning Engineer',
-                    'location': 'San Francisco, CA (Hybrid)',
-                    'salary': '$160,000 - $205,000',
-                    'description': 'Airbnb\'s AI & ML team is hiring a Machine Learning Engineer to build and deploy models that improve guest and host experiences across our marketplace.\n\nYou\'ll work on search ranking, pricing optimization, fraud detection, and personalization systems that directly impact revenue and trust on the platform. You\'ll collaborate with data scientists to take models from experimentation to production, building the infrastructure needed to train, evaluate, deploy, and monitor ML systems at scale.\n\nOur ML platform is built on Python, PyTorch, and Airflow for orchestration, with real-time serving via our internal feature store. You\'ll own the reliability and performance of models in production and continuously improve them.\n\nStrong candidates will have experience bridging research and engineering, with a track record of shipping impactful ML features.',
-                    'required_skills': 'Python, PyTorch, Spark, Airflow, Feature Engineering, MLOps'
-                },
-                {
-                    'company': 'Salesforce',
-                    'position': 'Senior Frontend Engineer',
-                    'location': 'San Francisco, CA (Hybrid)',
-                    'salary': '$140,000 - $175,000',
-                    'description': 'Salesforce\'s Lightning Platform team is seeking a Senior Frontend Engineer to help build the next generation of our enterprise CRM user interface used by over 150,000 companies worldwide.\n\nYou will architect and implement complex UI components, improve performance, and ensure accessibility across the Lightning Design System. Working at enterprise scale means solving unique challenges around component reuse, theming, and backwards compatibility.\n\nYou will mentor junior engineers, lead frontend architecture discussions, and establish coding standards. You\'ll partner closely with UX designers to translate designs into pixel-perfect, performant implementations.\n\nWe are looking for engineers with a deep knowledge of modern JavaScript, component architecture patterns, and a strong commitment to web standards and accessibility.',
-                    'required_skills': 'JavaScript, React, LWC, Web Components, CSS, Accessibility'
-                },
-                {
-                    'company': 'Spotify',
-                    'position': 'Backend Engineer – Music Discovery',
-                    'location': 'New York, NY (Hybrid)',
-                    'salary': '$135,000 - $170,000',
-                    'description': 'Spotify\'s Music Discovery squad is looking for a Backend Engineer to help power the recommendation and discovery features that connect 600 million users with music they love.\n\nYou\'ll build APIs and backend services that feed our recommendation engine, playlist generators, and editorial tools. Working on a cross-functional squad with data scientists, ML engineers, and designers, you\'ll have end-to-end ownership of discovery features.\n\nOur backend stack uses Java and Python microservices deployed on GCP with a heavy emphasis on event-driven architecture via Kafka. You\'ll engage in technical planning, lead the design of new services, and contribute to our open source ecosystem.\n\nWe value autonomy, creativity, and the belief that technology can make the world a better place through music.',
-                    'required_skills': 'Java, Python, Kafka, GCP, Microservices, SQL'
-                },
-                {
-                    'company': 'LinkedIn',
-                    'position': 'Staff Engineer – Feed Infrastructure',
-                    'location': 'Sunnyvale, CA',
-                    'salary': '$200,000 - $250,000',
-                    'description': 'LinkedIn is seeking a Staff Engineer to lead technical strategy for Feed Infrastructure, the backbone powering the LinkedIn feed for over 1 billion members.\n\nAs a Staff Engineer, you will drive large-scale technical initiatives, define the multi-year roadmap for feed architecture, and mentor senior engineers across two or more teams. You\'ll represent engineering in product strategy discussions and make critical decisions on latency, reliability, and scalability.\n\nYou will lead the development of stream processing pipelines, caching strategies, and real-time ranking systems that handle millions of feed refreshes per minute. This is a high-impact, high-visibility role at the intersection of infrastructure and product.\n\nSuccessful candidates will have a proven track record of leading large cross-functional engineering projects, strong communication skills, and technical depth across distributed systems.',
-                    'required_skills': 'Java, Kafka, Espresso, REST, Distributed Systems, Technical Leadership'
-                },
-                {
-                    'company': 'Uber',
-                    'position': 'Platform Engineer – Developer Experience',
-                    'location': 'San Francisco, CA',
-                    'salary': '$145,000 - $185,000',
-                    'description': 'Uber\'s Developer Experience team is hiring a Platform Engineer to improve the tools and workflows used by thousands of engineers building Uber\'s global platform.\n\nYou\'ll work on internal developer platforms, CI/CD pipelines, build systems, and developer tooling that directly improve engineering productivity. Your goal is to make every Uber engineer\'s day better — faster build times, better testing frameworks, smoother deployments.\n\nYou\'ll own critical internal infrastructure and be the technical lead on projects to reduce toil and increase developer velocity. Strong knowledge of containerization, build orchestration, and observability is essential.\n\nWe\'re looking for people who are passionate about developer experience, empathetic to fellow engineers\' pain points, and skilled at building internal platforms that scale.',
-                    'required_skills': 'Go, Kubernetes, Bazel, CI/CD, Docker, Observability'
-                },
-                {
-                    'company': 'Twilio',
-                    'position': 'Software Engineer – Communications APIs',
-                    'location': 'Remote (US)',
-                    'salary': '$130,000 - $165,000',
-                    'description': 'Twilio is hiring a Software Engineer to join the Core Communications team, building the SMS, Voice, and WhatsApp APIs used by over 300,000 businesses to communicate with their customers.\n\nYou will design and implement features for our communications platform, ensuring ultra-high availability and global reach. You\'ll work across the stack — from low-level telecom integrations to high-level API design — and contribute to the reliability of services that millions of end users depend on every day.\n\nCode quality and testing are a major focus for our team. You\'ll write comprehensive unit and integration tests, participate in thorough code reviews, and cultivate a culture of engineering excellence.\n\nWe believe in empowering every developer to build better communications. If you\'re excited about APIs, distributed systems, and real-world impact, we\'d love to hear from you.',
-                    'required_skills': 'Python, Node.js, REST APIs, PostgreSQL, Kafka, AWS'
-                }
-            ]
-            
-            for job_data in default_jobs:
-                job = Job(**job_data)
-                db.session.add(job)
-            
-            db.session.commit()
-            print("Database initialized with default jobs")
-
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -529,7 +408,124 @@ def not_found(error):
 def server_error(error):
     return jsonify({'message': 'Server error'}), 500
 
+# Initialize database on app startup (works with both local and gunicorn)
+with app.app_context():
+    db.create_all()
+    if Job.query.count() == 0:
+        default_jobs = [
+            {
+                'company': 'Google',
+                'position': 'Senior Software Engineer',
+                'location': 'Mountain View, CA',
+                'salary': '$160,000 - $200,000',
+                'description': 'Join Google\'s core infrastructure team to design and build highly scalable distributed systems that power billions of users worldwide.\n\nYou will work on challenging problems in areas such as storage, networking, and compute infrastructure. You\'ll collaborate with world-class engineers to architect solutions that need to handle massive scale reliably.\n\nResponsibilities include designing system components, writing high-quality code, conducting code reviews, and mentoring junior engineers. You\'ll participate in on-call rotations and drive reliability improvements across critical services.\n\nWe value engineers who think deeply about problems, communicate clearly, and take ownership of their work from design through deployment and monitoring.',
+                'required_skills': 'Python, Java, C++, Distributed Systems, Kubernetes'
+            },
+            {
+                'company': 'Microsoft',
+                'position': 'Principal Cloud Architect',
+                'location': 'Seattle, WA',
+                'salary': '$180,000 - $220,000',
+                'description': 'Microsoft Azure is looking for a Principal Cloud Architect to lead the design of next-generation cloud services used by enterprise customers globally.\n\nIn this role, you will define the architectural vision for Azure services, working closely with product managers and engineering leads to translate customer needs into scalable technical solutions. You will conduct architecture reviews, establish best practices, and ensure consistency across service boundaries.\n\nYou will represent your team in cross-org technical discussions and contribute to long-term platform strategy. Strong written and verbal communication skills are essential as you will regularly present to senior leadership.\n\nIdeal candidates have deep expertise in cloud-native design patterns, microservices, and enterprise integration scenarios.',
+                'required_skills': 'Azure, C#, .NET, Microservices, System Design'
+            },
+            {
+                'company': 'Meta',
+                'position': 'Full Stack Engineer',
+                'location': 'Menlo Park, CA',
+                'salary': '$155,000 - $195,000',
+                'description': 'Meta\'s Growth team is seeking a Full Stack Engineer to build high-impact features that improve how people connect and share on Facebook and Instagram.\n\nYou will own features end-to-end, from backend API design to polished user interfaces. Working in a fast-paced environment, you\'ll run experiments, analyze results, and iterate quickly based on data. Our team ships to billions of users, so performance and reliability are top priorities.\n\nYou\'ll work closely with product designers and data scientists to craft experiences that delight users. We use React on the frontend and a mix of Python and Hack on the backend, with GraphQL connecting the two.\n\nWe value engineers who are product-minded, move quickly, and are comfortable with ambiguity.',
+                'required_skills': 'React, Python, GraphQL, SQL, A/B Testing'
+            },
+            {
+                'company': 'Amazon',
+                'position': 'Software Development Engineer II',
+                'location': 'Seattle, WA (Hybrid)',
+                'salary': '$145,000 - $185,000',
+                'description': 'Amazon\'s Payments team is hiring a Software Development Engineer to help build the payment processing infrastructure that powers Amazon\'s global marketplace.\n\nYou will design and implement services that handle millions of transactions per day with extremely high availability and fault-tolerance requirements. You\'ll own your services through the full SDLC — writing design documents, coding, testing, deploying, and monitoring in production.\n\nOur team operates with a high degree of autonomy and follows a two-pizza team model. You\'ll be expected to lead technical discussions, make architectural decisions, and deliver complex projects on time.\n\nStrong candidates will have experience with high-throughput distributed systems, operational excellence, and a track record of building robust production services.',
+                'required_skills': 'Java, AWS, DynamoDB, SQS, Distributed Systems'
+            },
+            {
+                'company': 'Apple',
+                'position': 'iOS Software Engineer',
+                'location': 'Cupertino, CA',
+                'salary': '$150,000 - $190,000',
+                'description': 'Apple\'s Health team is looking for a talented iOS Software Engineer to help build health and wellness features used by millions of Apple Watch and iPhone users.\n\nYou will work on the HealthKit framework and Health app, building features that help users understand and improve their health. Your work will have a direct impact on people\'s lives, from fitness tracking to clinical health records integration.\n\nYou\'ll collaborate with hardware teams, machine learning engineers, and UX designers to deliver seamless and beautiful experiences. We have very high standards for performance, privacy, and reliability — every detail matters at Apple.\n\nIdeal candidates have deep knowledge of Swift and UIKit, a passion for great user experiences, and a strong understanding of privacy-preserving software design.',
+                'required_skills': 'Swift, Objective-C, UIKit, CoreData, HealthKit'
+            },
+            {
+                'company': 'Netflix',
+                'position': 'Senior Data Engineer',
+                'location': 'Los Gatos, CA (Remote)',
+                'salary': '$165,000 - $210,000',
+                'description': 'Netflix\'s Data Platform team is seeking a Senior Data Engineer to help build and scale the infrastructure that powers content and member analytics across one of the world\'s largest streaming services.\n\nYou will design and maintain data pipelines, data warehouses, and real-time streaming systems that process petabytes of data daily. Your work will directly enable data-driven decision-making across engineering, content, marketing, and product teams.\n\nThe ideal candidate is comfortable working across the full data stack — from ingestion and storage to transformation and serving. We use Apache Spark, Kafka, Flink, and a custom internal platform called Metacat for data discovery and governance.\n\nWe look for engineers who are strong communicators, can influence data infrastructure decisions at scale, and care deeply about data quality and reliability.',
+                'required_skills': 'Apache Spark, Kafka, Python, SQL, Scala, Data Modeling'
+            },
+            {
+                'company': 'Stripe',
+                'position': 'Backend Engineer – Payments',
+                'location': 'San Francisco, CA (Remote)',
+                'salary': '$155,000 - $200,000',
+                'description': 'Stripe is looking for a Backend Engineer to join the Payments team, where you\'ll help build the financial infrastructure that millions of businesses rely on to accept payments globally.\n\nYou will work on the critical path of payment processing, building reliable, low-latency APIs and internal services. Our systems need to handle complex financial logic, fraud prevention, and reconciliation across hundreds of payment methods and currencies.\n\nYou\'ll participate in technical design discussions, write clean and maintainable Ruby or Go code, and take pride in operational excellence. Stripe engineers own their code in production, participating in on-call rotations and driving down error rates.\n\nWe care deeply about correctness and reliability — errors in payments have real financial consequences for our users.',
+                'required_skills': 'Ruby, Go, PostgreSQL, Redis, REST APIs, Payments Domain'
+            },
+            {
+                'company': 'Airbnb',
+                'position': 'Machine Learning Engineer',
+                'location': 'San Francisco, CA (Hybrid)',
+                'salary': '$160,000 - $205,000',
+                'description': 'Airbnb\'s AI & ML team is hiring a Machine Learning Engineer to build and deploy models that improve guest and host experiences across our marketplace.\n\nYou\'ll work on search ranking, pricing optimization, fraud detection, and personalization systems that directly impact revenue and trust on the platform. You\'ll collaborate with data scientists to take models from experimentation to production, building the infrastructure needed to train, evaluate, deploy, and monitor ML systems at scale.\n\nOur ML platform is built on Python, PyTorch, and Airflow for orchestration, with real-time serving via our internal feature store. You\'ll own the reliability and performance of models in production and continuously improve them.\n\nStrong candidates will have experience bridging research and engineering, with a track record of shipping impactful ML features.',
+                'required_skills': 'Python, PyTorch, Spark, Airflow, Feature Engineering, MLOps'
+            },
+            {
+                'company': 'Salesforce',
+                'position': 'Senior Frontend Engineer',
+                'location': 'San Francisco, CA (Hybrid)',
+                'salary': '$140,000 - $175,000',
+                'description': 'Salesforce\'s Lightning Platform team is seeking a Senior Frontend Engineer to help build the next generation of our enterprise CRM user interface used by over 150,000 companies worldwide.\n\nYou will architect and implement complex UI components, improve performance, and ensure accessibility across the Lightning Design System. Working at enterprise scale means solving unique challenges around component reuse, theming, and backwards compatibility.\n\nYou will mentor junior engineers, lead frontend architecture discussions, and establish coding standards. You\'ll partner closely with UX designers to translate designs into pixel-perfect, performant implementations.\n\nWe are looking for engineers with a deep knowledge of modern JavaScript, component architecture patterns, and a strong commitment to web standards and accessibility.',
+                'required_skills': 'JavaScript, React, LWC, Web Components, CSS, Accessibility'
+            },
+            {
+                'company': 'Spotify',
+                'position': 'Backend Engineer – Music Discovery',
+                'location': 'New York, NY (Hybrid)',
+                'salary': '$135,000 - $170,000',
+                'description': 'Spotify\'s Music Discovery squad is looking for a Backend Engineer to help power the recommendation and discovery features that connect 600 million users with music they love.\n\nYou\'ll build APIs and backend services that feed our recommendation engine, playlist generators, and editorial tools. Working on a cross-functional squad with data scientists, ML engineers, and designers, you\'ll have end-to-end ownership of discovery features.\n\nOur backend stack uses Java and Python microservices deployed on GCP with a heavy emphasis on event-driven architecture via Kafka. You\'ll engage in technical planning, lead the design of new services, and contribute to our open source ecosystem.\n\nWe value autonomy, creativity, and the belief that technology can make the world a better place through music.',
+                'required_skills': 'Java, Python, Kafka, GCP, Microservices, SQL'
+            },
+            {
+                'company': 'LinkedIn',
+                'position': 'Staff Engineer – Feed Infrastructure',
+                'location': 'Sunnyvale, CA',
+                'salary': '$200,000 - $250,000',
+                'description': 'LinkedIn is seeking a Staff Engineer to lead technical strategy for Feed Infrastructure, the backbone powering the LinkedIn feed for over 1 billion members.\n\nAs a Staff Engineer, you will drive large-scale technical initiatives, define the multi-year roadmap for feed architecture, and mentor senior engineers across two or more teams. You\'ll represent engineering in product strategy discussions and make critical decisions on latency, reliability, and scalability.\n\nYou will lead the development of stream processing pipelines, caching strategies, and real-time ranking systems that handle millions of feed refreshes per minute. This is a high-impact, high-visibility role at the intersection of infrastructure and product.\n\nSuccessful candidates will have a proven track record of leading large cross-functional engineering projects, strong communication skills, and technical depth across distributed systems.',
+                'required_skills': 'Java, Kafka, Espresso, REST, Distributed Systems, Technical Leadership'
+            },
+            {
+                'company': 'Uber',
+                'position': 'Platform Engineer – Developer Experience',
+                'location': 'San Francisco, CA',
+                'salary': '$145,000 - $185,000',
+                'description': 'Uber\'s Developer Experience team is hiring a Platform Engineer to improve the tools and workflows used by thousands of engineers building Uber\'s global platform.\n\nYou\'ll work on internal developer platforms, CI/CD pipelines, build systems, and developer tooling that directly improve engineering productivity. Your goal is to make every Uber engineer\'s day better — faster build times, better testing frameworks, smoother deployments.\n\nYou\'ll own critical internal infrastructure and be the technical lead on projects to reduce toil and increase developer velocity. Strong knowledge of containerization, build orchestration, and observability is essential.\n\nWe\'re looking for people who are passionate about developer experience, empathetic to fellow engineers\' pain points, and skilled at building internal platforms that scale.',
+                'required_skills': 'Go, Kubernetes, Bazel, CI/CD, Docker, Observability'
+            },
+            {
+                'company': 'Twilio',
+                'position': 'Software Engineer – Communications APIs',
+                'location': 'Remote (US)',
+                'salary': '$130,000 - $165,000',
+                'description': 'Twilio is hiring a Software Engineer to join the Core Communications team, building the SMS, Voice, and WhatsApp APIs used by over 300,000 businesses to communicate with their customers.\n\nYou will design and implement features for our communications platform, ensuring ultra-high availability and global reach. You\'ll work across the stack — from low-level telecom integrations to high-level API design — and contribute to the reliability of services that millions of end users depend on every day.\n\nCode quality and testing are a major focus for our team. You\'ll write comprehensive unit and integration tests, participate in thorough code reviews, and cultivate a culture of engineering excellence.\n\nWe believe in empowering every developer to build better communications. If you\'re excited about APIs, distributed systems, and real-world impact, we\'d love to hear from you.',
+                'required_skills': 'Python, Node.js, REST APIs, PostgreSQL, Kafka, AWS'
+            }
+        ]
+        
+        for job_data in default_jobs:
+            job = Job(**job_data)
+            db.session.add(job)
+        
+        db.session.commit()
+        print("Database initialized with default jobs")
+
 if __name__ == '__main__':
-    init_db()
     print("Starting Flask server with SQLite database...")
     app.run(debug=True, port=5000)
